@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import Beat.DJTestDrive;
 import Heart.HeartTestDrive;
+import Operacion.OperacionTestDrive;
  
 public class Ejecucion implements ActionListener{//implementando el listener de eventos
  
@@ -75,7 +76,8 @@ public class Ejecucion implements ActionListener{//implementando el listener de 
  
         }
         else if(e.getSource() == jb3){
-            /*if(jp3.isVisible()){
+        	OperacionTestDrive.play();
+        	/*if(jp3.isVisible()){
                 jp3.setVisible(false);
             }else
                 jp3.setVisible(true);*/
