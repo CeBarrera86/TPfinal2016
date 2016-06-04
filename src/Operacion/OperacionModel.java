@@ -104,7 +104,7 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 	}
 
 	public void setBPMdead(int bpm){
-		sequencer.setTempoInBPM(220);
+		sequencer.setTempoInBPM(320);
 	}
 	
 	@Override
