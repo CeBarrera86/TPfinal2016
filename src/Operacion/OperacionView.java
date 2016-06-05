@@ -8,12 +8,14 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Beat.ControllerInterface;
 import Beat.DJTestDrive;
 import Heart.HeartTestDrive;
 
@@ -21,11 +23,13 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JLabel;
 
 public class OperacionView extends JFrame implements ActionListener{
 	public Image imagenFondo;
 	public URL fondo;
 	private JPanel contentPane;
+	ControllerInterface  controller;
 	JButton btnNewButton = new JButton("Curar");
 	JButton btnNewButton_1 = new JButton("Curar");
 	JButton btnCurar = new JButton("Curar");
@@ -33,11 +37,16 @@ public class OperacionView extends JFrame implements ActionListener{
 	JButton btnCurar_2 = new JButton("Curar");
 	JButton btnCurar_3 = new JButton("Curar");
 	JButton btnCurar_4 = new JButton("Curar");
-
+	
+	Random rand=new Random();
+	String problema;
+	int causa=0;
+	JLabel lblProblemaCardiaco = new JLabel("Vena Cava Superior");
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -48,12 +57,13 @@ public class OperacionView extends JFrame implements ActionListener{
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
 	 */
-	public OperacionView() {
+	public OperacionView(ControllerInterface controller) {
+		this.controller=controller;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 400, 400);
 		contentPane = new JPanel();
@@ -85,36 +95,41 @@ public class OperacionView extends JFrame implements ActionListener{
 		btnCurar_3.addActionListener(this);
 		
 		btnCurar_4.addActionListener(this);
-		
+				
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(btnNewButton)
 							.addPreferredGap(ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
 							.addComponent(btnCurar)
 							.addContainerGap())
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(btnNewButton_1)
-							.addGap(31))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(btnCurar_4)
 							.addPreferredGap(ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
 							.addComponent(btnCurar_1)
 							.addContainerGap())
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(btnCurar_3)
 							.addPreferredGap(ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
 							.addComponent(btnCurar_2)
 							.addContainerGap())))
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addGap(31)
+					.addComponent(lblProblemaCardiaco)
+					.addPreferredGap(ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+					.addComponent(btnNewButton_1)
+					.addGap(31))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(btnNewButton_1)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnNewButton_1)
+						.addComponent(lblProblemaCardiaco))
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(25)
@@ -122,14 +137,14 @@ public class OperacionView extends JFrame implements ActionListener{
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(45)
 							.addComponent(btnCurar)))
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(87)
 							.addComponent(btnCurar_1)
 							.addPreferredGap(ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
 							.addComponent(btnCurar_2)
 							.addGap(39))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnCurar_4)
 							.addGap(76)
@@ -138,37 +153,103 @@ public class OperacionView extends JFrame implements ActionListener{
 		);
 		panel.setLayout(gl_panel);
 	}
-
+	
+	public void cambiarProblema(){
+		causa=rand.nextInt(7);
+		if(causa==0){
+			problema="Vena Cava Superior";
+		}
+		else if(causa==1){
+			problema="Aorta";
+		}
+		else if(causa==2){
+			problema="Corazon";
+		}
+		else if(causa==3){
+			problema="Aorta Descendente";
+		}
+		else if(causa==4){
+			problema="Riñon Izquierda";
+		}
+		else if(causa==5){
+			problema="Riñon Derecho";
+		}
+		else if(causa==6){
+			problema="Vena Cava Inferior";
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnNewButton){
-        	System.out.println("1");
-        	         	
+        	if(causa==0){
+        		controller.setBPM(60); 
+        		cambiarProblema();
+        		lblProblemaCardiaco.setText(problema);
+        	}
+        	else{
+        		controller.setBPM(0);
+        	}
         }
         else if(e.getSource() == btnNewButton_1){
-        	System.out.println("2");
-
+        	if(causa==1){
+        		controller.setBPM(60); 
+        		cambiarProblema();
+        		lblProblemaCardiaco.setText(problema);
+        	}
+        	else{
+        		controller.setBPM(0);
+        	}
         }
         else if(e.getSource() == btnCurar){
-        	System.out.println("3");
-
+        	if(causa==2){
+        		controller.setBPM(60); 
+        		cambiarProblema();
+        		lblProblemaCardiaco.setText(problema);
+        	}
+        	else{
+        		controller.setBPM(0);
+        	}
         }
         else if(e.getSource() == btnCurar_1){
-        	System.out.println("4");
-
+        	if(causa==3){
+        		controller.setBPM(60); 
+        		cambiarProblema();
+        		lblProblemaCardiaco.setText(problema);
+        	}
+        	else{
+        		controller.setBPM(0);
+        	}
         }
         else if(e.getSource() == btnCurar_2){
-        	System.out.println("5");
-
+        	if(causa==4){
+        		controller.setBPM(60); 
+        		cambiarProblema();
+        		lblProblemaCardiaco.setText(problema);
+        	}
+        	else{
+        		controller.setBPM(0);
+        	}
         }
         else if(e.getSource() == btnCurar_3){
-        	System.out.println("6");
-
+        	if(causa==5){
+        		controller.setBPM(60); 
+        		cambiarProblema();
+        		lblProblemaCardiaco.setText(problema);
+        	}
+        	else{
+        		controller.setBPM(0);
+        	}
         }
         else if(e.getSource() == btnCurar_4){
-        	System.out.println("7");
-
+        	if(causa==6){
+        		controller.setBPM(60); 
+        		cambiarProblema();
+        		lblProblemaCardiaco.setText(problema);
+        	}
+        	else{
+        		controller.setBPM(0);
+        	}
         }
 	}
-
 }

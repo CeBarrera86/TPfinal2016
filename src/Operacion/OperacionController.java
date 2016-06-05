@@ -15,7 +15,7 @@ public class OperacionController implements ControllerInterface {
 		view.disableStopMenuItem();
 		view.disableStartMenuItem();
 	}
-  
+		
 	public void start() {}
  
 	public void stop() {}
@@ -27,5 +27,7 @@ public class OperacionController implements ControllerInterface {
 		model.setBPM(bpm-1);
 	}
 		
- 	public void setBPM(int bpm) {}
+ 	public void setBPM(int bpm) {
+ 		model.setBPM(bpm);
+ 	}
 }
