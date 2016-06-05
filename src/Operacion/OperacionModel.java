@@ -30,8 +30,8 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 				setBPM(bpm);
 				notifyBeatObservers();
 				if(bpm==0){
-					System.out.println("Your patient is dead!");
-					notifyCuerpoObservers();
+					setBPMdead();
+					notifyCuerpoObservers(false);
 				}
 			}
 			else{
@@ -96,10 +96,10 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 		}
 	}
 
-	public void notifyCuerpoObservers() {
+	public void notifyCuerpoObservers(boolean b) {                     //Si bool = 0 -> Muerte, Si bool = 1 -> Recomenzar.
 		for(int i = 0; i < cuerpoObservers.size(); i++) {
 			CuerpoObserver observer = (CuerpoObserver)cuerpoObservers.get(i);;
-			observer.updateCuerpo();		
+			observer.updateCuerpo(b);		
 		}
 	}
 
@@ -126,11 +126,18 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 		sequencer.setTempoInBPM(bpm);
 	}
 	
+	//@SuppressWarnings("deprecation")
 	@Override
 	public void setBPMdead(){
 		sequencer.setTempoInBPM(320);
 		bpm=0;
 		notifyBPMObservers();
+		notifyCuerpoObservers(false);
+		try {
+			Thread.sleep(time/2);
+		} catch (Exception e) {}	
+		sequencer.stop();
+		//thread.stop();
 	}
 	
 	@Override
@@ -149,7 +156,7 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 	}
 	
 	public void beep(){
-		try{     
+		try{
             sequencer = MidiSystem.getSequencer( );
             sequence = new Sequence(Sequence.PPQ, 4);
             pista = sequence.createTrack();
@@ -160,7 +167,7 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
             ShortMessage ins = new ShortMessage( );
             ins.setMessage(ShortMessage.PROGRAM_CHANGE,  0, 5, 0);
             pista.add(new MidiEvent(ins, 0));
-            for (int n=0;n< 64;n++){
+            for (int n=0;n< 700;n++){
                 sonarbeep(pista, 67, n, 120);
             }
             sequencer.start( );
@@ -168,6 +175,12 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
         e.printStackTrace();
       }
     }
+	
+	public void recomenzar(){
+		sequencer.close();
+		beep();
+		notifyCuerpoObservers(true);
+	}
 	    
 }
 

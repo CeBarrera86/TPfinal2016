@@ -1,5 +1,5 @@
 package Operacion;
 
 public interface CuerpoObserver {
-	void updateCuerpo();
+	void updateCuerpo(boolean b);
 }

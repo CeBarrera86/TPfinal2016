@@ -49,7 +49,7 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 	}
   
   
-    public void createControls() {
+    public void createControls(boolean b) {              //false-> control no se ve, true-> control se ve 
 		// Create all Swing components here
         JFrame.setDefaultLookAndFeelDecorated(true);
         controlFrame = new JFrame("Control");
@@ -116,7 +116,12 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
         controlFrame.getContentPane().add(controlPanel, BorderLayout.CENTER);
 
         controlFrame.pack();
-        controlFrame.setVisible(true);
+        if(b){
+        	controlFrame.setVisible(true);
+        }
+        else{
+        	controlFrame.setVisible(false);
+        }
     }
 
 	public void enableStopMenuItem() {

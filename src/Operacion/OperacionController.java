@@ -13,7 +13,7 @@ public class OperacionController implements ControllerInterface {
 		
 		view = new DJView(this, new OperacionAdapter(model));
         view.createView();
-        view.createControls();
+        view.createControls(false);
 		view.disableStopMenuItem();
 		view.disableStartMenuItem();
 		

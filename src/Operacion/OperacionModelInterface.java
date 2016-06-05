@@ -20,4 +20,5 @@ public interface OperacionModelInterface {
 	void registerObserver(CuerpoObserver o);
 	void removeObserver(CuerpoObserver o);
 	void setBPMdead();
+	void recomenzar();
 }
