@@ -25,6 +25,12 @@ public class HeartController implements ControllerInterface {
 	public void decreaseBPM() {}
   
  	public void setBPM(int bpm) {}
+
+	@Override
+	public void setBPMdead() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

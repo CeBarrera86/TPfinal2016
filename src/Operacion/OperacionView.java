@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Beat.BPMObserver;
 import Beat.ControllerInterface;
 import Beat.DJTestDrive;
 import Heart.HeartTestDrive;
@@ -24,12 +25,16 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Color;
 
-public class OperacionView extends JFrame implements ActionListener{
+public class OperacionView extends JFrame implements ActionListener, CuerpoObserver{
+	ControllerInterface  controller;
+	OperacionModelInterface model;
+	
 	public Image imagenFondo;
 	public URL fondo;
 	private JPanel contentPane;
-	ControllerInterface  controller;
 	JButton btnNewButton = new JButton("Curar");
 	JButton btnNewButton_1 = new JButton("Curar");
 	JButton btnCurar = new JButton("Curar");
@@ -38,10 +43,14 @@ public class OperacionView extends JFrame implements ActionListener{
 	JButton btnCurar_3 = new JButton("Curar");
 	JButton btnCurar_4 = new JButton("Curar");
 	
+	JLabel lblProblemaCardiaco = new JLabel("Vena Cava Superior");
+	JLabel lblNewLabel = new JLabel("");
+	
 	Random rand=new Random();
 	String problema;
 	int causa=0;
-	JLabel lblProblemaCardiaco = new JLabel("Vena Cava Superior");
+	
+	
 	
 	/**
 	 * Launch the application.
@@ -62,8 +71,13 @@ public class OperacionView extends JFrame implements ActionListener{
 	/**
 	 * Create the frame.
 	 */
-	public OperacionView(ControllerInterface controller) {
+	public OperacionView(ControllerInterface controller, OperacionModelInterface model) {
 		this.controller=controller;
+		this.model = model;
+		model.registerObserver((CuerpoObserver)this);
+		
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setFont(new Font("Ravie", Font.PLAIN, 16));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 400, 400);
 		contentPane = new JPanel();
@@ -105,24 +119,26 @@ public class OperacionView extends JFrame implements ActionListener{
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(btnNewButton)
 							.addPreferredGap(ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
-							.addComponent(btnCurar)
-							.addContainerGap())
-						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(btnCurar))
+						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
 							.addComponent(btnCurar_4)
 							.addPreferredGap(ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
-							.addComponent(btnCurar_1)
-							.addContainerGap())
-						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(btnCurar_1))
+						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
 							.addComponent(btnCurar_3)
 							.addPreferredGap(ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
-							.addComponent(btnCurar_2)
-							.addContainerGap())))
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+							.addComponent(btnCurar_2)))
+					.addContainerGap())
+				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(31)
 					.addComponent(lblProblemaCardiaco)
-					.addPreferredGap(ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
 					.addComponent(btnNewButton_1)
 					.addGap(31))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(72)
+					.addComponent(lblNewLabel)
+					.addContainerGap(312, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -138,18 +154,20 @@ public class OperacionView extends JFrame implements ActionListener{
 							.addGap(45)
 							.addComponent(btnCurar)))
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(87)
-							.addComponent(btnCurar_1)
-							.addPreferredGap(ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-							.addComponent(btnCurar_2)
-							.addGap(39))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+							.addGap(32)
+							.addComponent(lblNewLabel)
+							.addPreferredGap(ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
 							.addComponent(btnCurar_4)
 							.addGap(76)
 							.addComponent(btnCurar_3)
-							.addGap(48))))
+							.addGap(48))
+						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+							.addGap(87)
+							.addComponent(btnCurar_1)
+							.addPreferredGap(ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+							.addComponent(btnCurar_2)
+							.addGap(40))))
 		);
 		panel.setLayout(gl_panel);
 	}
@@ -169,7 +187,7 @@ public class OperacionView extends JFrame implements ActionListener{
 			problema="Aorta Descendente";
 		}
 		else if(causa==4){
-			problema="Riñon Izquierda";
+			problema="Riñon Izquierdo";
 		}
 		else if(causa==5){
 			problema="Riñon Derecho";
@@ -188,7 +206,8 @@ public class OperacionView extends JFrame implements ActionListener{
         		lblProblemaCardiaco.setText(problema);
         	}
         	else{
-        		controller.setBPM(0);
+        		controller.setBPMdead();
+        		lblNewLabel.setText("Your Pacient is DEAD!!");
         	}
         }
         else if(e.getSource() == btnNewButton_1){
@@ -198,7 +217,8 @@ public class OperacionView extends JFrame implements ActionListener{
         		lblProblemaCardiaco.setText(problema);
         	}
         	else{
-        		controller.setBPM(0);
+        		controller.setBPMdead();
+        		lblNewLabel.setText("Your Pacient is DEAD!!");
         	}
         }
         else if(e.getSource() == btnCurar){
@@ -208,7 +228,8 @@ public class OperacionView extends JFrame implements ActionListener{
         		lblProblemaCardiaco.setText(problema);
         	}
         	else{
-        		controller.setBPM(0);
+        		controller.setBPMdead();
+        		lblNewLabel.setText("Your Pacient is DEAD!!");
         	}
         }
         else if(e.getSource() == btnCurar_1){
@@ -218,7 +239,8 @@ public class OperacionView extends JFrame implements ActionListener{
         		lblProblemaCardiaco.setText(problema);
         	}
         	else{
-        		controller.setBPM(0);
+        		controller.setBPMdead();
+        		lblNewLabel.setText("Your Pacient is DEAD!!");
         	}
         }
         else if(e.getSource() == btnCurar_2){
@@ -228,7 +250,8 @@ public class OperacionView extends JFrame implements ActionListener{
         		lblProblemaCardiaco.setText(problema);
         	}
         	else{
-        		controller.setBPM(0);
+        		controller.setBPMdead();
+        		lblNewLabel.setText("Your Pacient is DEAD!!");
         	}
         }
         else if(e.getSource() == btnCurar_3){
@@ -238,7 +261,8 @@ public class OperacionView extends JFrame implements ActionListener{
         		lblProblemaCardiaco.setText(problema);
         	}
         	else{
-        		controller.setBPM(0);
+        		controller.setBPMdead();
+        		lblNewLabel.setText("Your Pacient is DEAD!!");
         	}
         }
         else if(e.getSource() == btnCurar_4){
@@ -248,8 +272,15 @@ public class OperacionView extends JFrame implements ActionListener{
         		lblProblemaCardiaco.setText(problema);
         	}
         	else{
-        		controller.setBPM(0);
+        		controller.setBPMdead();
+        		lblNewLabel.setText("Your Pacient is DEAD!!");
         	}
         }
+	}
+
+	@Override
+	public void updateCuerpo() {
+		controller.setBPMdead();
+		lblNewLabel.setText("Your Pacient is DEAD!!");	
 	}
 }

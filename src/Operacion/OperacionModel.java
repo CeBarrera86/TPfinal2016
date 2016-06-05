@@ -10,6 +10,7 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 	Sequencer sequencer;
 	ArrayList beatObservers = new ArrayList();
 	ArrayList bpmObservers = new ArrayList();
+	ArrayList cuerpoObservers = new ArrayList();
 	int time = 2000;
     int bpm;
     Sequence sequence;
@@ -30,7 +31,7 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 				notifyBeatObservers();
 				if(bpm==0){
 					System.out.println("Your patient is dead!");
-					setBPMdead(220);
+					notifyCuerpoObservers();
 				}
 			}
 			else{
@@ -44,7 +45,8 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 	public int getOperacionRate() {
 		return bpm;
 	}
-
+	
+	//BeatObserver-------------------------------------------------------------
 	public void registerObserver(BeatObserver o) {
 		beatObservers.add(o);
 	}
@@ -55,7 +57,7 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 			beatObservers.remove(i);
 		}
 	}
-
+	
 	public void notifyBeatObservers() {
 		for(int i = 0; i < beatObservers.size(); i++) {
 			BeatObserver observer = (BeatObserver)beatObservers.get(i);
@@ -63,6 +65,7 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 		}
 	}
 
+	//BPMObserver---------------------------------------------------------------
 	public void registerObserver(BPMObserver o) {
 		bpmObservers.add(o);
 	}
@@ -80,7 +83,27 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 			observer.updateBPM();
 		}
 	}
+	
+	//CuerpoObserver---------------------------------------------------------------
+	public void registerObserver(CuerpoObserver o) {
+		cuerpoObservers.add(o);
+	}
 
+	public void removeObserver(CuerpoObserver o) {
+		int i = bpmObservers.indexOf(o);
+		if (i >= 0) {
+			cuerpoObservers.remove(i);
+		}
+	}
+
+	public void notifyCuerpoObservers() {
+		for(int i = 0; i < cuerpoObservers.size(); i++) {
+			CuerpoObserver observer = (CuerpoObserver)cuerpoObservers.get(i);;
+			observer.updateCuerpo();		
+		}
+	}
+
+	
 	@Override
 	public void initialize() {
 
@@ -102,9 +125,12 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 		notifyBPMObservers();
 		sequencer.setTempoInBPM(bpm);
 	}
-
-	public void setBPMdead(int bpm){
+	
+	@Override
+	public void setBPMdead(){
 		sequencer.setTempoInBPM(320);
+		bpm=0;
+		notifyBPMObservers();
 	}
 	
 	@Override

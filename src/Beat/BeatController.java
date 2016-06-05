@@ -39,4 +39,10 @@ public class BeatController implements ControllerInterface {
  	public void setBPM(int bpm) {
 		model.setBPM(bpm);
 	}
+
+	@Override
+	public void setBPMdead() {
+		// TODO Auto-generated method stub
+		
+	}
 }
