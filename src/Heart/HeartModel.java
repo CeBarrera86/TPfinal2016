@@ -6,22 +6,35 @@ import Beat.BPMObserver;
 import Beat.BeatObserver;
 
 public class HeartModel implements HeartModelInterface, Runnable {
+	private static final HeartModel model = new HeartModel();
+	private static int cantidad=0;
+	
 	ArrayList beatObservers = new ArrayList();
 	ArrayList bpmObservers = new ArrayList();
 	int time = 1000;
     int bpm = 90;
 	Random random = new Random(System.currentTimeMillis());
 	Thread thread;
-
-	public HeartModel() {
+	boolean func=true;
+	
+	private HeartModel() {
 		thread = new Thread(this);
 		thread.start();
 	}
-
+	
+	public int get_cantidad(){
+		return cantidad;
+	}
+	
+	public static HeartModel obtenerSingleton(){
+		cantidad++;
+		return model;
+	}
+	
 	public void run() {
 		int lastrate = -1;
-
-		for(;;) {
+		//func=true;
+		while(func) {
 			int change = random.nextInt(10);
 			if (random.nextInt(2) == 0) {
 				change = 0 - change;
@@ -40,6 +53,15 @@ public class HeartModel implements HeartModelInterface, Runnable {
 			} catch (Exception e) {}
 		}
 	}
+	public int getBPM(){
+		return cantidad;
+	}
+	
+	public void setBPM(int cantidad) {
+		this.cantidad = cantidad;
+		notifyBPMObservers();
+    }
+	
 	public int getHeartRate() {
 		return 60000/time;
 	}
@@ -78,5 +100,11 @@ public class HeartModel implements HeartModelInterface, Runnable {
 			BPMObserver observer = (BPMObserver)bpmObservers.get(i);
 			observer.updateBPM();
 		}
+	}
+	public void on(){
+		func=true;
+	}
+	public void off(){
+		func=false;
 	}
 }

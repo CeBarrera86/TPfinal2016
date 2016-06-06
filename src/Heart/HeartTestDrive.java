@@ -8,7 +8,8 @@ public class HeartTestDrive {
 		play();
     }
     public static void play(){
-    	HeartModel heartModel = new HeartModel();
+    	HeartModel heartModel;
+    	heartModel = HeartModel.obtenerSingleton();
         ControllerInterface model = new HeartController(heartModel);
     }
 }

@@ -98,7 +98,7 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 
 	public void notifyCuerpoObservers(boolean b) {                     //Si bool = 0 -> Muerte, Si bool = 1 -> Recomenzar.
 		for(int i = 0; i < cuerpoObservers.size(); i++) {
-			CuerpoObserver observer = (CuerpoObserver)cuerpoObservers.get(i);;
+			CuerpoObserver observer = (CuerpoObserver)cuerpoObservers.get(i);
 			observer.updateCuerpo(b);		
 		}
 	}
@@ -116,7 +116,8 @@ public class OperacionModel implements OperacionModelInterface, Runnable {
 
 	@Override
 	public void off() {
-
+		setBPM(0);
+		sequencer.stop();
 	}
 
 	@Override

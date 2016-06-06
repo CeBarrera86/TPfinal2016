@@ -198,7 +198,7 @@ public class OperacionView extends JFrame implements ActionListener, CuerpoObser
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(juegoTerminado);
+		//System.out.println(juegoTerminado);
 		if(!juegoTerminado){
 		if(e.getSource() == btnNewButton){
         	if(causa==0){
@@ -287,7 +287,7 @@ public class OperacionView extends JFrame implements ActionListener, CuerpoObser
 	public void updateCuerpo(boolean b) {
 		if(!b){                                           //MUERTE!
 			juegoTerminado=true;
-			lblNewLabel.setText("Your Pacient is DEAD!!");
+			lblNewLabel.setText("Your Patient is DEAD!!");
 			//controller.setBPMdead();	
 		}
 		else{                                              //REINICIAR

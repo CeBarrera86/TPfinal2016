@@ -11,12 +11,15 @@ import javax.swing.JPanel;
 
 import Beat.DJTestDrive;
 import Heart.HeartTestDrive;
+import Operacion.HeartDescTestDrive;
 import Operacion.OperacionTestDrive;
+import Strategy.StrategyTestDrive;
  
 public class Ejecucion implements ActionListener{//implementando el listener de eventos
  
     JPanel jp1, jp2, jp3;
-    JButton jb1, jb2, jb3, jbP1, jbP2, jbP3;   
+
+    JButton jb1, jb2, jb3, jb4, jb5, jbP1, jbP2, jbP3;   
  
     public Ejecucion(){
  
@@ -40,13 +43,13 @@ public class Ejecucion implements ActionListener{//implementando el listener de 
  
     public void gridJP(){
  
-        jp1 = new JPanel(new GridLayout(3, 1, 5, 7));//filas, columnas, espacio entre filas, espacio entre columnas
+        jp1 = new JPanel(new GridLayout(5, 1, 5, 7));//filas, columnas, espacio entre filas, espacio entre columnas
  
-        jb1= new JButton("Beat"); jb2= new JButton("Heart"); jb3= new JButton("Operacion");//creamos los objetos para el panel
+        jb1= new JButton("Beat"); jb2= new JButton("Heart"); jb3= new JButton("Heart Desc"); jb4= new JButton("Operacion"); jb5= new JButton("Strategy");//creamos los objetos para el panel
  
-        jp1.add(jb1); jp1.add(jb2); jp1.add(jb3);//añadimos los objetos al jpanel
+        jp1.add(jb1); jp1.add(jb2); jp1.add(jb3); jp1.add(jb4); jp1.add(jb5);//añadimos los objetos al jpanel
  
-        jb1.addActionListener(this); jb2.addActionListener(this); jb3.addActionListener(this);
+        jb1.addActionListener(this); jb2.addActionListener(this); jb3.addActionListener(this); jb4.addActionListener(this); jb5.addActionListener(this);
  
         jp1.setVisible(true);
     }
@@ -76,13 +79,30 @@ public class Ejecucion implements ActionListener{//implementando el listener de 
  
         }
         else if(e.getSource() == jb3){
+        	HeartDescTestDrive.play();
+        	/*if(jp3.isVisible()){
+                jp3.setVisible(false);
+            }else
+                jp3.setVisible(true);*/
+ 
+        }
+        else if(e.getSource() == jb4){
         	OperacionTestDrive.play();
         	/*if(jp3.isVisible()){
                 jp3.setVisible(false);
             }else
                 jp3.setVisible(true);*/
  
-        }else{
+        }
+        else if(e.getSource() == jb5){
+        	StrategyTestDrive.play();
+        	/*if(jp3.isVisible()){
+                jp3.setVisible(false);
+            }else
+                jp3.setVisible(true);*/
+ 
+        }
+        else{
             JOptionPane.showMessageDialog(null, e.getActionCommand());
         }
     }

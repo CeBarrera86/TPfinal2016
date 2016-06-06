@@ -2,6 +2,7 @@ package Heart;
 
 import Beat.ControllerInterface;
 import Beat.DJView;
+import Strategy.StrategyView;
 
 public class HeartController implements ControllerInterface {
 	HeartModelInterface model;
@@ -15,12 +16,28 @@ public class HeartController implements ControllerInterface {
 		view.disableStopMenuItem();
 		view.disableStartMenuItem();
 	}
+	
+	public HeartController(StrategyView view){
+		this.view = view;
+		this.model = HeartModel.obtenerSingleton();
+		this.view = view;
+		this.view.disableStopMenuItem();
+		this.view.disableStartMenuItem();
+	}
   
-	public void start() {}
+	public void start() {
+		model.on();
+	}
  
-	public void stop() {}
+	public void stop() {
+		model.off();
+	}
     
-	public void increaseBPM() {}
+	public void increaseBPM() {
+		HeartModel.obtenerSingleton();
+        //System.out.println(model.getBPM());
+		view.updateBPM();
+	}
     
 	public void decreaseBPM() {}
   

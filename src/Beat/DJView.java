@@ -5,12 +5,12 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class DJView implements ActionListener,  BeatObserver, BPMObserver {
-	BeatModelInterface model;
-	ControllerInterface controller;
-    JFrame viewFrame;
-    JPanel viewPanel;
-	BeatBar beatBar;
-	JLabel bpmOutputLabel;
+	protected BeatModelInterface model;
+	protected ControllerInterface controller;
+    protected JFrame viewFrame;
+    protected JPanel viewPanel;
+	protected BeatBar beatBar;
+	protected JLabel bpmOutputLabel;
     JFrame controlFrame;
     JPanel controlPanel;
     JLabel bpmLabel;
@@ -28,6 +28,10 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 		this.model = model;
 		model.registerObserver((BeatObserver)this);
 		model.registerObserver((BPMObserver)this);
+    }
+    
+    public DJView(){
+    	
     }
     
     public void createView() {

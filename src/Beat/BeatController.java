@@ -1,5 +1,7 @@
 package Beat;
-  
+
+import Strategy.StrategyView;
+
 public class BeatController implements ControllerInterface {
 	BeatModelInterface model;
 	DJView view;
@@ -12,6 +14,14 @@ public class BeatController implements ControllerInterface {
 		view.disableStopMenuItem();
 		view.enableStartMenuItem();
 		model.initialize();
+	}
+	
+	public BeatController(BeatModel model, StrategyView view) {
+		this.view = view;
+		this.view.disableStopMenuItem();
+		this.view.enableStartMenuItem();
+		this.model = model;
+		this.model.initialize();
 	}
   
 	public void start() {
@@ -45,4 +55,7 @@ public class BeatController implements ControllerInterface {
 		// TODO Auto-generated method stub
 		
 	}
+	public void setView(DJView view){
+ 		this.view = view;
+ 	}
 }
